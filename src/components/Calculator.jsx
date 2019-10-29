@@ -22,7 +22,7 @@ class Calculator extends React.Component {
     let { displayValue = "" } = this.state;
     displayValue = "" + displayValue;
     const lastChar = displayValue.substr(displayValue.length - 1);
-    const operatorKeys = ["÷", "×", "-", "+"];
+    const operatorKeys = ["÷", "×", "-", "+", "*", "/", "."];
     const proc = {
       AC: () => {
         this.setState({ displayValue: "" });
@@ -33,9 +33,21 @@ class Calculator extends React.Component {
         }
         this.setState({ displayValue });
       },
-      "÷": () => {},
-      "×": () => {},
-      "-": () => {},
+      "÷": () => {
+        if (lastChar !== "" && !operatorKeys.includes(lastChar)) {
+          this.setState({displayValue: displayValue + "/"})
+        }
+      },
+      "×": () => {
+        if (lastChar !== "" && !operatorKeys.includes(lastChar)) {
+          this.setState({displayValue: displayValue + "*"})
+        }
+      },
+      "-": () => {
+        if (lastChar !== "" && !operatorKeys.includes(lastChar)) {
+          this.setState({displayValue: displayValue + "-"})
+        }
+      },
       "+": () => {
         if (lastChar !== "" && !operatorKeys.includes(lastChar)) {
           this.setState({ displayValue: displayValue + "+" });
@@ -49,7 +61,12 @@ class Calculator extends React.Component {
         }
         this.setState({ displayValue });
       },
-      ".": () => {},
+      ".": () => {
+        if (Number(displayValue) !== 0 || displayValue === "0") {
+          displayValue += ".";
+          this.setState({ displayValue });
+        }
+      },
       "0": () => {
         if (Number(displayValue) !== 0) {
           displayValue += "0";
